@@ -1,0 +1,12 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#FFFFFF</item>
+
+        <item name="colorPrimaryDark">#FFFFFF</item>
+
+        <item name="colorAccent">#FF4081</item>
+        <item name="colorButtonNormal">#00000000</item>
+
+    </style>
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.sun.jna.platform.win32.read.view.MoveView
+        android:id="@+id/position"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3630AC3B" />
+
+</LinearLayout>
