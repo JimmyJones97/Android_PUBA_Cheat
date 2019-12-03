@@ -158,33 +158,55 @@ public class MainService extends Service implements Runnable {
 
         @Override
         public void run() {
+
+            final String path = "/dev/jkhewrh";
+            int result = -1;
+
             Process process = null;
+            InputStream ip = null;
             DataOutputStream os = null;
             try {
-
-                process = Runtime.getRuntime().exec("su -c /dev/jkhewrh");
+                process = Runtime.getRuntime().exec("su - c" + path);
                 os = new DataOutputStream(process.getOutputStream());
+
+                os.writeBytes(path);
                 os.writeBytes("\n");
                 os.flush();
 
+                ip = process.getInputStream();
+
+                String s;
+                byte b[] = new byte[8192];
+                int ten = 0;
+                while ((ten = ip.read(b)) != -1) {
+                    s = new String(b, 0, ten);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (Exception e) {
-
+                e.printStackTrace();
             } finally {
-
                 try {
                     if (os != null) {
                         os.close();
                     }
+                    if (ip != null) {
+                        ip.close();
+                    }
 
-                    process.destroy();
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                T.ToastSuccess("读取服务之星完毕");
 
+                if (process != null) {
+                    process.destroy();
+                }
             }
+            T.ToastSuccess("执行读取结束");
         }
     }
+
 
 
     public void stopAll() {
