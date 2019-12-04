@@ -16,4 +16,5 @@ public class AppData {
     public static boolean isM = false;
     public static boolean isFps = false;
     public static Context context;
+    public final static String KEY = "uweioqjkdvxklamsfhieb";
 }

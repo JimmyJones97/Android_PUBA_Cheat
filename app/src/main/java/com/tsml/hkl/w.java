@@ -24,6 +24,7 @@ import com.tsml.hkl.Utils.HttpUtils;
 import com.tsml.hkl.Utils.KeyUtils;
 import com.tsml.hkl.Utils.MyUtils;
 import com.tsml.hkl.Utils.ViewUpdate;
+import com.tsml.hkl.Utils.fh;
 import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.enty.MyRequest;
 import com.tsml.hkl.enty.UserOut;
@@ -47,15 +48,22 @@ public class w extends AppCompatActivity implements OnClickListener {
         if (dataSave == null) {
             dataSave = new DataSave(w.this);
         }
-        String imei = dataSave.getString("imei");
-        if (imei != null && !imei.equals("")) {
-            return imei;
+        String imei = dataSave.getString("token");
+        fh f = new fh();
+        try {
+            f.EncryptionDecryption(AppData.KEY);
+            if (imei != null && !imei.equals("")) {
+                return f.decrypt(imei);
+            }
+            String uuid = MyUtils.getUUID();
+            String encrypt = f.encrypt(uuid);
+            dataSave.saveString("token", encrypt);
+            return uuid;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        String uuid = MyUtils.getUUID();
-        dataSave.saveString("imei", uuid);
-        return uuid;
-
+        return null;
     }
 
     private String user() {
@@ -84,7 +92,6 @@ public class w extends AppCompatActivity implements OnClickListener {
             bo = true;
             this.us = uss;
             login(uss);
-
         }
 
     }
@@ -138,7 +145,6 @@ public class w extends AppCompatActivity implements OnClickListener {
 
             try {
                 postStringParameters(request, userOut -> {
-
                     if (userOut != null) {
                         if (userOut.getState().equals("ok") &&
                                 userOut.getCount() != null &&
@@ -161,7 +167,6 @@ public class w extends AppCompatActivity implements OnClickListener {
                         T.ToastWarning("网络连接失败");
                     }
                 });
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

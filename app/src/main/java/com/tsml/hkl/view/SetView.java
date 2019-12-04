@@ -50,22 +50,25 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
     }
 
     private void initView() {
+
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View toucherLayout1 = inflater.inflate(R.layout.window, null);
         SeekBar seekbar_nomal = toucherLayout1.findViewById(R.id.seekbar_nomal);
         SeekBar seekbar_nomab = toucherLayout1.findViewById(R.id.seekbar_nomab);
         SeekBar seekBar = toucherLayout1.findViewById(R.id.seekbar_fps);
         tefps = toucherLayout1.findViewById(R.id.tefps);
-         viptime = toucherLayout1.findViewById(R.id.viptime);
+        viptime = toucherLayout1.findViewById(R.id.viptime);
         viptime.setText("到期时间:" + AppData.vipTime);
 
         int x = MainService.example.dataSave.getInt("x");
         int y = MainService.example.dataSave.getInt("y");
         int fps = MainService.example.dataSave.getInt("fps");
 
+
         seekbar_nomal.setProgress(x == -1 ? 200 : 200 + x);
         seekbar_nomab.setProgress(y == -1 ? 200 : 200 + y);
         seekBar.setProgress(fps == -1 ? 50 : 100 - fps);
+
 
         AppData.x = x == -1 ? 0 : x;
         AppData.y = y == -1 ? 0 : y;
@@ -74,10 +77,10 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         tefps.setText(isfps(AppData.fps));
 
         seekBar.setOnSeekBarChangeListener(this);
+
         ((Switch) toucherLayout1.findViewById(R.id.swfps)).setOnCheckedChangeListener(this);
         ((Switch) toucherLayout1.findViewById(R.id.swline)).setOnCheckedChangeListener(this);
         sw = toucherLayout1.findViewById(R.id.swfk);
-
         ((Switch) toucherLayout1.findViewById(R.id.swm)).setOnCheckedChangeListener(this);
 
         sw.setOnCheckedChangeListener(this);
@@ -106,7 +109,6 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         cont = toucherLayout1.findViewById(R.id.contor);
         im.setOnTouchListener(this);
         wei.setOnClickListener(this);
-
 
         seekbar_nomal.setOnSeekBarChangeListener(this);
         seekbar_nomab.setOnSeekBarChangeListener(this);
@@ -147,14 +149,14 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
 
         int x = param1.x + (int) (moveX);
         int y = param1.y + (int) (moveY);
-        if (x > AppData.height) {
-            x = (int) AppData.height;
+        if (x > AppData.width) {
+            x = (int) AppData.width;
         }
         if (x < 0) {
             x = 0;
         }
-        if (y > AppData.width) {
-            y = (int) AppData.width;
+        if (y > AppData.height) {
+            y = (int) AppData.height;
         }
         if (y < 0) {
             y = 0;
@@ -163,7 +165,6 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         param1.y = y;
         windowManager.updateViewLayout(this, param1);
     }
-
 
 
     public void getWH() {

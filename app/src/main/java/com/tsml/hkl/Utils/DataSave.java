@@ -15,7 +15,7 @@ public class DataSave {
 
     public SharedPreferences getSp() {
         if (sp == null) {
-            sp = context.getSharedPreferences("mydata", Context.MODE_PRIVATE);
+            sp = context.getSharedPreferences("data", Context.MODE_PRIVATE);
         }
         return sp;
     }
@@ -45,9 +45,11 @@ public class DataSave {
     public int getInt(String key) {
         return getSp().getInt(key, -1);
     }
+
     public String getString(String key) {
         return getSp().getString(key, "");
     }
+
     public long getLong(String key) {
         return getSp().getLong(key, -1);
     }

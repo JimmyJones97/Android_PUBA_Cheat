@@ -4,7 +4,6 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.util.Log;
-import android.widget.*;
 
 
 import java.io.DataOutputStream;
@@ -21,25 +20,37 @@ import com.tsml.hkl.Utils.ProcessManager;
 import com.tsml.hkl.Utils.ShellUtils;
 import com.tsml.hkl.Utils.ViewUpdate;
 import com.tsml.hkl.enty.AppData;
-import com.tsml.hkl.enty.ProcessInfo;
 import com.tsml.hkl.view.MoveView;
 import com.tsml.hkl.view.SetView;
 
 //@SuppressWarnings("all")
 public class MainService extends Service implements Runnable {
 
-    MoveView mo;
-    SetView so;
-    public DataSave dataSave;
-    public static MainService example;
-    public boolean isrun = false;
+    MoveView mo;//绘制服务
+
+    SetView so;//悬浮工具
+
+    public DataSave dataSave;//数据保存
+
+    public static MainService example;//服务实例
+
+    public boolean isrun = false; //是否正在运行绘制
 
 
+    /**
+     * 绑定activity
+     *
+     * @param intent
+     * @return
+     */
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }//不与activity绑定
 
+    /**
+     * 服务初始化
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,6 +66,9 @@ public class MainService extends Service implements Runnable {
     }
 
 
+    /**
+     * 服务销毁
+     */
     @Override
     public void onDestroy() {
         isrun = false;
@@ -69,6 +83,11 @@ public class MainService extends Service implements Runnable {
 
     }
 
+    /**
+     * 开启服务
+     *
+     * @param context
+     */
     public static void showFloat(Context context) {
         if (example == null) {
             Intent intent = new Intent(context, MainService.class);
@@ -76,6 +95,11 @@ public class MainService extends Service implements Runnable {
         }
     }
 
+    /**
+     * 关闭服务
+     *
+     * @param context
+     */
     public static void stopFloat(Context context) {
         if (example == null) {
             Intent intent = new Intent(context, MainService.class);
@@ -83,6 +107,9 @@ public class MainService extends Service implements Runnable {
         }
     }
 
+    /**
+     * 绘制线程
+     */
     @Override
     public void run() {
         while (isrun) {
@@ -106,10 +133,10 @@ public class MainService extends Service implements Runnable {
 
     }
 
-    public boolean getisrun() {
-        return isrun;
-    }
 
+    /**
+     * 开启功能
+     */
     public void setRun() {
         if (KeyUtils.isTime(AppData.vipTime)) {
             isrun = true;
@@ -132,29 +159,16 @@ public class MainService extends Service implements Runnable {
      */
     public void stopRun() {
         isrun = false;
-        new Thread(() -> {
-            try {
-                final List<ProcessInfo> processInfos = ProcessManager.parseProcessList();
-                int f = 0;
-                if (processInfos != null && processInfos.size() > 0) {
-                    for (ProcessInfo pf : processInfos) {
-                        if (pf.getPackageName().contains("jkhewrh")) {
-                            ShellUtils.execCommand("kill " + pf.getPid(), true);
-                            Log.d("kills", "" + pf.getPid());
-                            f++;
-                        }
-                    }
-                }
-                T.ToastSuccess(String.format("杀死服务%s个", f));
-            } catch (Exception e) {
-
-            }
-        }).start();
-
+        ViewUpdate.runThread(() -> {
+            final int process = ProcessManager.parseProcessList();
+            T.ToastSuccess(String.format("杀死服务%s个", process));
+        });
 
     }
 
-
+    /**
+     * 开启扫描坐标
+     */
     class startServer extends Thread {
 
         @Override
@@ -227,6 +241,9 @@ public class MainService extends Service implements Runnable {
 
     }
 
+    /**
+     * VIP时间检测，过期退出使用
+     */
     class G extends Thread {
         @Override
         public void run() {

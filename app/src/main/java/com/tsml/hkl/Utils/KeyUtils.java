@@ -1,12 +1,17 @@
 package com.tsml.hkl.Utils;
 
 
+import java.security.Key;
+import java.security.Security;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import com.tsml.hkl.BASE64.BASE64Decoder;
 import com.tsml.hkl.BASE64.BASE64Encoder;
+
+import javax.crypto.Cipher;
 
 public class KeyUtils {
 
@@ -58,7 +63,7 @@ public class KeyUtils {
         String str = "yyy-MM-dd HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(str);
         try {
-            if(time !=null && !time.equals("")){
+            if (time != null && !time.equals("")) {
                 Date parse = sdf.parse(time);
                 return date.getTime() < parse.getTime();
             }
@@ -68,4 +73,6 @@ public class KeyUtils {
 
         return false;
     }
+
+
 }

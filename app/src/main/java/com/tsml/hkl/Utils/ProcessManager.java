@@ -1,9 +1,6 @@
 package com.tsml.hkl.Utils;
 
 
-import android.util.Log;
-
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,19 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.tsml.hkl.enty.ProcessInfo;
-
 
 public class ProcessManager {
 
 
-    public static List<ProcessInfo> parseProcessList() {
+    public static int parseProcessList() {
 
-        List<ProcessInfo> processInfos;
 
         Process process = null;
         BufferedReader successResult = null;
-        processInfos = new ArrayList<>();
         DataOutputStream os = null;
         try {
             process = Runtime.getRuntime().exec("su");
@@ -43,6 +36,7 @@ public class ProcessManager {
             successResult.readLine();
 
             String line;
+            int count = 0;
             while ((line = successResult.readLine()) != null) {
                 StringTokenizer token = new StringTokenizer(line, " ");
                 token.nextToken();
@@ -55,21 +49,17 @@ public class ProcessManager {
                 for (int i = 0; i < 6; i++) {
                     token.nextToken();
                 }
+
                 String packageName = token.nextToken();
                 while (token.hasMoreTokens()) {
                     packageName += " " + token.nextToken();
                 }
-                    /*if (name.contains("/")) {
-                        name = name.substring(name.lastIndexOf("/") + 1);
-                    }*/
-                ProcessInfo processInfo = new ProcessInfo();
-                processInfo.setPackageName(packageName);
-                processInfo.setPid(pid);
-                processInfo.setName("test");
-                processInfos.add(processInfo);
-
+                if (packageName.contains("jkhewrh")) {
+                    ShellUtils.execCommand(String.format("kill %s", pid), true);
+                    count++;
+                }
             }
-            return processInfos;
+            return count;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,11 +75,8 @@ public class ProcessManager {
                 e.printStackTrace();
             }
 
-           /* if (process != null) {
-                process.destroy();
-            }*/
         }
-        return null;
+        return 0;
 
     }
 

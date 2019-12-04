@@ -38,7 +38,7 @@ public class MyUtils {
 
     public static final String getUUID() {
         String replace = UUID.randomUUID().toString().replace("-", "");
-        return replace.substring(0, 15);
+        return replace;
     }
 
     static public boolean vipTime(String time) {

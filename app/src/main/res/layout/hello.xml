@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+
     android:padding="10dp">
 
     <TextView
@@ -15,24 +16,30 @@
         android:textSize="24sp"
         android:textStyle="normal" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/bh" />
+
     <TextView
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/times"
+        android:layout_centerHorizontal="true"
+        android:text="软件仅供学习和参考"
 
-        android:text="软件仅供学习和参考" />
+        android:textColor="@color/white" />
+
     <TextView
         android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="请在安装后24小时以内卸载和删除" />
-
+        android:layout_centerHorizontal="true"
+        android:text="请在安装后24小时以内卸载和删除"
+        android:textColor="@color/white" />
 
 
 </RelativeLayout>
