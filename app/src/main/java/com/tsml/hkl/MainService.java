@@ -166,9 +166,8 @@ public class MainService extends Service implements Runnable {
             InputStream ip = null;
             DataOutputStream os = null;
             try {
-                process = Runtime.getRuntime().exec("su - c" + path);
+                process = Runtime.getRuntime().exec(String.format("su - c %s", path));
                 os = new DataOutputStream(process.getOutputStream());
-
                 os.writeBytes(path);
                 os.writeBytes("\n");
                 os.flush();
@@ -206,7 +205,6 @@ public class MainService extends Service implements Runnable {
             T.ToastSuccess("执行读取结束");
         }
     }
-
 
 
     public void stopAll() {
