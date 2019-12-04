@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.UUID;
 
 
+import com.tsml.hkl.Toast.T;
 import com.tsml.hkl.Toast.ToastS;
 import com.tsml.hkl.Utils.DataSave;
 import com.tsml.hkl.Utils.HttpUtils;
@@ -38,8 +39,6 @@ public class w extends AppCompatActivity implements OnClickListener {
     EditText user;
     Button submit;
 
-    LinearLayout info_view;
-    TextView statet;
     boolean bo = false;
     String us;
     DataSave dataSave;
@@ -68,10 +67,8 @@ public class w extends AppCompatActivity implements OnClickListener {
 
     public void initView() {
         setContentView(R.layout.activity_main);
-        user = findViewById(R.id.et_username);
-        info_view = findViewById(R.id.cv);
-        submit = findViewById(R.id.bt_go);
-        statet = findViewById(R.id.intext);
+        user = findViewById(R.id.et_login_pwd);
+        submit = findViewById(R.id.bt_login_submit);
         submit.setOnClickListener(this);
         dataSave = new DataSave(w.this);
     }
@@ -92,20 +89,11 @@ public class w extends AppCompatActivity implements OnClickListener {
     }
 
 
-    public void alert(final String str) {
-        ViewUpdate.threadUi(() -> {
-            ToastS.success(w.this, str, Toast.LENGTH_LONG).show();
-            statet.setText(str);
-        });
-
-    }
-
-
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onClick(View p1) {
         switch (p1.getId()) {
-            case R.id.bt_go:
+            case R.id.bt_login_submit:
                 if (!bo) {
                     String ua = user.getText().toString();
                     if (!ua.equals("")) {
@@ -114,10 +102,10 @@ public class w extends AppCompatActivity implements OnClickListener {
                             this.us = ua;
                             login(ua);
                         } else {
-                            alert("请填写正确卡密");
+                            T.ToastWarning("请填写正确卡密",w.this);
                         }
                     } else {
-                        alert("卡密不能为空");
+                        T.ToastWarning("卡密不能为空",w.this);
                     }
                 }
                 break;
@@ -155,7 +143,7 @@ public class w extends AppCompatActivity implements OnClickListener {
                                 userOut.getCount() != null &&
                                 userOut.getCount().equals(KeyUtils.getCU(count))) {
                             AppData.vipTime = userOut.getTime();
-                            alert("登录成功");
+                            T.ToastSuccess("登录成功",w.this);
                             dataSave.saveString("user", us);
                             isVip = true;
                             bo = false;
@@ -164,12 +152,12 @@ public class w extends AppCompatActivity implements OnClickListener {
 
                             finish();
                         } else if (userOut.getState().equals("errer")) {
-                            alert(userOut.getMessge());
+                            T.ToastError(userOut.getMessge(),w.this);
                         }
                         bo = false;
                     } else {
                         bo = false;
-                        alert("网络连接失败");
+                        T.ToastError("网络连接失败",w.this);
                     }
                 });
 

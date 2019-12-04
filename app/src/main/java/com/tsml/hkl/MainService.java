@@ -120,7 +120,7 @@ public class MainService extends Service implements Runnable {
 
         } else {
             stopAll();
-            T.ToastWarning("时间到期");
+            T.ToastWarning("时间到期",MainService.this);
         }
 
 
@@ -144,7 +144,7 @@ public class MainService extends Service implements Runnable {
                         }
                     }
                 }
-                T.ToastSuccess(String.format("杀死服务%s个", f));
+                T.ToastSuccess(String.format("杀死服务%s个", f),MainService.this);
             } catch (Exception e) {
 
             }
@@ -202,7 +202,7 @@ public class MainService extends Service implements Runnable {
                     process.destroy();
                 }
             }
-            T.ToastSuccess("执行读取结束");
+            T.ToastSuccess("执行读取结束",MainService.this);
         }
     }
 
@@ -233,7 +233,7 @@ public class MainService extends Service implements Runnable {
                 boolean time = KeyUtils.isTime(AppData.vipTime);
                 if (!time) {
                     stopAll();
-                    T.ToastWarning("时间到期");
+                    T.ToastWarning("时间到期",MainService.this);
                 }
                 try {
                     Thread.sleep(1000 * 60);
