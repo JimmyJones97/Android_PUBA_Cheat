@@ -1,39 +1,39 @@
 package com.tsml.hkl.Toast;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
 import com.tsml.hkl.MainService;
+import com.tsml.hkl.enty.AppData;
 
 public class T {
 
-    public static void ToastSuccess(Object s, Context context) {
-        if (MainService.example != null) {
+    public static void ToastSuccess(Object s) {
+        if (AppData.context != null) {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(() -> ToastS.success(context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
+            handler.post(() -> ToastS.success(AppData.context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
         }
     }
 
-    public static void ToastInfo(Object s, Context context) {
-        if (MainService.example != null) {
+    public static void ToastInfo(Object s) {
+        if (AppData.context != null) {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(() -> ToastS.info(context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
+            handler.post(() -> ToastS.info(AppData.context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
         }
     }
 
-    public static void ToastError(Object s, Context context) {
-        if (MainService.example != null) {
+    public static void ToastError(Object s) {
+        if (AppData.context != null) {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(() -> ToastS.error(context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
+            handler.post(() -> ToastS.error(AppData.context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
         }
     }
 
-    public static void ToastWarning(Object s, Context context) {
-        if (MainService.example != null) {
+    public static void ToastWarning(Object s) {
+        if (AppData.context != null) {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(() -> ToastS.warning(context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
+            handler.post(() -> ToastS.warning(AppData.context, s == null ? "" : s.toString(), Toast.LENGTH_LONG).show());
         }
     }
 

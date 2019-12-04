@@ -45,9 +45,10 @@ public class MainService extends Service implements Runnable {
         super.onCreate();
 
         dataSave = new DataSave(MainService.this);
-        this.example = MainService.this;
-        MyUtils.getAssetsFile("TF_BOAYS", this);//解压数据
+        example = MainService.this;
+        AppData.context = MainService.this;
 
+        MyUtils.getAssetsFile("TF_BOAYS", this);//解压数据
         so = new SetView(MainService.this);
         mo = new MoveView(MainService.this);
 
@@ -120,7 +121,7 @@ public class MainService extends Service implements Runnable {
 
         } else {
             stopAll();
-            T.ToastWarning("时间到期",MainService.this);
+            T.ToastWarning("时间到期");
         }
 
 
@@ -144,7 +145,7 @@ public class MainService extends Service implements Runnable {
                         }
                     }
                 }
-                T.ToastSuccess(String.format("杀死服务%s个", f),MainService.this);
+                T.ToastSuccess(String.format("杀死服务%s个", f));
             } catch (Exception e) {
 
             }
@@ -202,7 +203,7 @@ public class MainService extends Service implements Runnable {
                     process.destroy();
                 }
             }
-            T.ToastSuccess("执行读取结束",MainService.this);
+            T.ToastSuccess("执行读取结束");
         }
     }
 
@@ -233,7 +234,7 @@ public class MainService extends Service implements Runnable {
                 boolean time = KeyUtils.isTime(AppData.vipTime);
                 if (!time) {
                     stopAll();
-                    T.ToastWarning("时间到期",MainService.this);
+                    T.ToastWarning("时间到期");
                 }
                 try {
                     Thread.sleep(1000 * 60);

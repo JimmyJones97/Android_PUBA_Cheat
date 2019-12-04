@@ -1,5 +1,7 @@
 package com.tsml.hkl.enty;
 
+import android.content.Context;
+
 public class AppData {
     public static double height;
     public static double width;
@@ -13,4 +15,5 @@ public class AppData {
     public static boolean isRun = false;
     public static boolean isM = false;
     public static boolean isFps = false;
+    public static Context context;
 }

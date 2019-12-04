@@ -77,6 +77,7 @@ public class w extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        AppData.context = w.this;
         final String uss = user();
         if (uss != null && !uss.equals("")) {
             user.setText(uss);
@@ -102,10 +103,10 @@ public class w extends AppCompatActivity implements OnClickListener {
                             this.us = ua;
                             login(ua);
                         } else {
-                            T.ToastWarning("请填写正确卡密",w.this);
+                            T.ToastWarning("请填写正确卡密");
                         }
                     } else {
-                        T.ToastWarning("卡密不能为空",w.this);
+                        T.ToastWarning("卡密不能为空");
                     }
                 }
                 break;
@@ -143,7 +144,7 @@ public class w extends AppCompatActivity implements OnClickListener {
                                 userOut.getCount() != null &&
                                 userOut.getCount().equals(KeyUtils.getCU(count))) {
                             AppData.vipTime = userOut.getTime();
-                            T.ToastSuccess("登录成功",w.this);
+                            T.ToastSuccess("登录成功");
                             dataSave.saveString("user", us);
                             isVip = true;
                             bo = false;
@@ -152,12 +153,12 @@ public class w extends AppCompatActivity implements OnClickListener {
 
                             finish();
                         } else if (userOut.getState().equals("errer")) {
-                            T.ToastError(userOut.getMessge(),w.this);
+                            T.ToastWarning(userOut.getMessge());
                         }
                         bo = false;
                     } else {
                         bo = false;
-                        T.ToastError("网络连接失败",w.this);
+                        T.ToastWarning("网络连接失败");
                     }
                 });
 
