@@ -31,7 +31,7 @@
             android:id="@+id/viptime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="到期时间"
+            android:text="@string/end_time"
             android:textSize="12sp"
             android:textColor="#E91E63" />
 
@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="开启透视"
+                            android:text="@string/open_cheating"
                             android:textColor="#E91E63" />
 
                         <Switch
@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="显示距离"
+                            android:text="@string/display_distance"
                             android:textColor="#E91E63" />
 
                         <Switch
@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="开启射线"
+                            android:text="@string/display_line"
                             android:textColor="#E91E63" />
 
                         <Switch
@@ -124,7 +124,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="显示FPS"
+                            android:text="@string/display_fps"
                             android:textColor="#E91E63" />
 
                         <Switch
@@ -147,7 +147,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="方框横向调整"
+                                android:text="@string/horizontal_adjustment"
                                 android:textColor="@color/textfiles" />
 
                         </LinearLayout>
@@ -184,7 +184,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="方框纵向向调整"
+                                android:text="@string/vertical_adjustment"
                                 android:textColor="@color/textfiles" />
 
                         </LinearLayout>
@@ -222,7 +222,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="帧率设置"
+                                android:text="FPS:"
                                 android:textColor="@color/textfiles" />
 
                             <TextView
@@ -230,7 +230,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="(低)"
+                                android:text="@string/low"
                                 android:textColor="@color/textfiles" />
 
                         </LinearLayout>
@@ -261,7 +261,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/circle_corner_button_selector"
-                        android:text="关闭所有"
+                        android:text="@string/close_all"
                         android:textColor="@color/textfiles"
                         android:textSize="@dimen/textsize" />
 

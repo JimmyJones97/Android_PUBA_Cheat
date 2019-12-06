@@ -6,15 +6,6 @@
 
     android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_centerInParent="true"
-        android:text="欢迎使用"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="normal" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -28,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/times"
         android:layout_centerHorizontal="true"
-        android:text="软件仅供学习和参考"
-
-        android:textColor="@color/white" />
+        android:text="@string/app_info"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/textsize" />
 
     <TextView
         android:id="@+id/times"
@@ -38,8 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="请在安装后24小时以内卸载和删除"
-        android:textColor="@color/white" />
+        android:text="@string/app_info_a"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/textsize"/>
 
 
 </RelativeLayout>

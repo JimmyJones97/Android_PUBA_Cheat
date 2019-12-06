@@ -1,0 +1,39 @@
+<resources>
+
+    <string name="app_name">ZS</string>
+    <string name="okexit">确定退出吗？</string>
+    <string name="prompt">提示</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+
+
+    <!--新版登录专用-->
+    <string name="login">登录</string>
+    <string name="login_input_username_hint">用户名</string>
+    <string name="hint_password">卡密</string>
+    <string name="login_hold_hint">自动登录</string>
+    <string name="login_register_hint">注册</string>
+    <string name="register_username_hint">用户名</string>
+    <string name="plase_key">请填写正确卡密</string>
+    <string name="key_not_null">卡密不能为空</string>
+    <string name="network_errer">网络连接失败</string>
+    <string name="login_success">登陆成功</string>
+    <string name="high">(高)</string>
+    <string name="low">(低)</string>
+    <string name="moderate">(中)</string>
+    <string name="very_high">(极高-不建议)</string>
+    <string name="number">人数：</string>
+    <string name="die">死亡</string>
+    <string name="app_info">软件仅供学习和参考</string>
+    <string name="app_info_a">请在安装后24小时以内卸载和删除</string>
+    <string name="end_time">结束时间:</string>
+    <string name="open_cheating">开启透视</string>
+    <string name="display_distance">显示距离</string>
+    <string name="display_line">显示射线</string>
+    <string name="display_fps">显示FPS</string>
+    <string name="horizontal_adjustment">水平调整</string>
+    <string name="vertical_adjustment">垂直调整</string>
+    <string name="close_all">关闭所有</string>
+    <string name="time_expires">时间到期</string>
+
+</resources>
