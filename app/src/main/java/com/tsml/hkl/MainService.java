@@ -78,6 +78,8 @@ public class MainService extends Service implements Runnable {
         if (so != null) {
             so.removeView();
         }
+
+        stopRun();
         ShellUtils.execCommand("rm -f /dev/jkhewrh", true);//删除数据
         example = null;
 
@@ -118,9 +120,7 @@ public class MainService extends Service implements Runnable {
             if (mo != null) {
                 mo.draw();
             }
-
             long end = System.currentTimeMillis();
-
             try {
                 if (end - start < AppData.fps) {
                     Thread.sleep(AppData.fps - (end - start));
@@ -148,7 +148,7 @@ public class MainService extends Service implements Runnable {
 
         } else {
             stopAll();
-            T.ToastWarning("时间到期");
+            T.ToastWarning(getString(R.string.time_expires));
         }
 
 
@@ -163,7 +163,6 @@ public class MainService extends Service implements Runnable {
             final int process = ProcessManager.parseProcessList();
             T.ToastSuccess(String.format("杀死服务%s个", process));
         });
-
     }
 
     /**
@@ -175,8 +174,7 @@ public class MainService extends Service implements Runnable {
         public void run() {
 
             final String path = "/dev/jkhewrh";
-            int result = -1;
-
+            String s = "";
             Process process = null;
             InputStream ip = null;
             DataOutputStream os = null;
@@ -188,10 +186,9 @@ public class MainService extends Service implements Runnable {
                 os.flush();
 
                 ip = process.getInputStream();
-
-                String s;
                 byte b[] = new byte[8192];
                 int ten = 0;
+
                 while ((ten = ip.read(b)) != -1) {
                     s = new String(b, 0, ten);
                 }
@@ -217,7 +214,7 @@ public class MainService extends Service implements Runnable {
                     process.destroy();
                 }
             }
-            T.ToastSuccess("执行读取结束");
+            T.ToastSuccess(String.format("执行读取结束：%s", s));
         }
     }
 
@@ -251,7 +248,7 @@ public class MainService extends Service implements Runnable {
                 boolean time = KeyUtils.isTime(AppData.vipTime);
                 if (!time) {
                     stopAll();
-                    T.ToastWarning("时间到期");
+                    T.ToastWarning(getString(R.string.time_expires));
                 }
                 try {
                     Thread.sleep(1000 * 60);

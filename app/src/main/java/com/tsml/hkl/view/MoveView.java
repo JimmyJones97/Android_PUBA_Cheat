@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.tsml.hkl.R;
 import com.tsml.hkl.Toast.T;
 import com.tsml.hkl.enty.AppData;
 
@@ -193,7 +194,7 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                                 if (hp > 0) {
                                     ms = new StringBuffer().append(hp).append("%").toString();
                                 } else {
-                                    ms = "倒下";
+                                    ms = context.getString(R.string.die);//死亡
                                 }
                                 canvas.drawText(ms, fx + AppData.x, fy + AppData.y - fw - 20, thisTextPaint);
                             }
@@ -216,7 +217,8 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                         time = System.currentTimeMillis();
                     }
 
-                    canvas.drawText(new StringBuffer().append("人数:").append(hs).toString(), (float) AppData.floor - 80, 160, testPain);
+                    //人数
+                    canvas.drawText(new StringBuffer().append(context.getString(R.string.number)).append(hs).toString(), (float) AppData.floor - 80, 160, testPain);
                     canvas.drawText(new StringBuffer().append("FPS:").append(f_fps).toString(), (float) AppData.floor - 80, 100, testPain);
                 }
             } catch (IOException e) {

@@ -58,7 +58,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         SeekBar seekBar = toucherLayout1.findViewById(R.id.seekbar_fps);
         tefps = toucherLayout1.findViewById(R.id.tefps);
         viptime = toucherLayout1.findViewById(R.id.viptime);
-        viptime.setText("到期时间:" + AppData.vipTime);
+        viptime.setText(new StringBuffer().append(context.getString(R.string.end_time)).append(AppData.vipTime));
 
         int x = MainService.example.dataSave.getInt("x");
         int y = MainService.example.dataSave.getInt("y");
@@ -124,15 +124,16 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
 
     private String isfps(int i) {
         if (i >= 0 && i <= 20) {
-            return "(极高-不建议)";
+            return context.getString(R.string.very_high);//极高
         } else if (i > 20 && i <= 50) {
-            return "(高)";
+            return context.getString(R.string.high);//高
         } else if (i > 50 && i <= 70) {
-            return "(中)";
+            return  context.getString(R.string.moderate);//中
         } else if (i > 70 && i <= 100) {
-            return "(低)";
+            return context.getString(R.string.low);//低
         }
-        return "(低)";
+
+        return context.getString(R.string.low);//低
     }
 
     @Override
