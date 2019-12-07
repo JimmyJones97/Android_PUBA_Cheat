@@ -161,7 +161,7 @@ public class MainService extends Service implements Runnable {
         isrun = false;
         ViewUpdate.runThread(() -> {
             final int process = ProcessManager.parseProcessList();
-            T.ToastSuccess(String.format("杀死服务%s个", process));
+           // T.ToastSuccess(String.format("杀死服务%s个", process));
         });
     }
 
@@ -214,7 +214,7 @@ public class MainService extends Service implements Runnable {
                     process.destroy();
                 }
             }
-            T.ToastSuccess(String.format("执行读取结束：%s", s));
+            //T.ToastSuccess(String.format("执行读取结束：%s", s));
         }
     }
 

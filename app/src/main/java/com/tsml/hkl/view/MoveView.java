@@ -173,7 +173,7 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                         int hp = Double.valueOf(split[5]).intValue();
 
                         if (m >= 2 && m < 450 && fw > 0 ) {
-                            if (hp > 0) {
+                            if (/*hp > 0*/ true) {
                                 if (thisPaint != paint_green) {
                                     thisPaint = paint_green;
                                 }
@@ -195,7 +195,7 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                             }
                             if (AppData.isM) {
                                 canvas.drawText(new StringBuffer().append(m).append("M").toString(), fx - 100 + AppData.x, fy + AppData.y - fw - 20, thisTextPaint);
-                                String ms;
+                                /*String ms;
                                 if (hp > 0) {
                                     ms = new StringBuffer().append(hp).append("%").toString();
                                 } else {
@@ -204,12 +204,12 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                                 int starty = fy + fw + AppData.y;
                                 int endy = fy + AppData.y - fw;
                                 int hply = starty - endy;
-                               /* if (hp > 100) {
+                               *//* if (hp > 100) {
                                     hp = 100;
-                                }*/
+                                }*//*
                                 hply  = (hp / 100) * (hply / 100) + endy;
                                 canvas.drawLine(fx + fw / 2 + AppData.x + 8, fy + fw + AppData.y , fx + fw / 2 + AppData.x + 8, hply , hpPint);
-                            }
+                           */ }
 
                             if (AppData.isLine) {
                                 canvas.drawLine((int) AppData.floor, 0, fx + AppData.x, fy + AppData.y - fw, thisPaint);
@@ -220,7 +220,6 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                     }
 
                 }
-
                 if (AppData.isFps) {
                     t_fps++;
                     if (System.currentTimeMillis() - time >= 1000) {
@@ -228,11 +227,10 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                         t_fps = 0;
                         time = System.currentTimeMillis();
                     }
-
                     //人数
-                    canvas.drawText(new StringBuffer().append(context.getString(R.string.number)).append(hs).toString(), (float) AppData.floor - 80, 160, testPain);
                     canvas.drawText(new StringBuffer().append("FPS:").append(f_fps).toString(), (float) AppData.floor - 80, 100, testPain);
                 }
+                canvas.drawText(new StringBuffer().append(context.getString(R.string.number)).append(hs).toString(), (float) AppData.floor - 80, 160, testPain);
             } catch (IOException e) {
 
             } finally {
