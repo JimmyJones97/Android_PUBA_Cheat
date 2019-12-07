@@ -230,7 +230,7 @@ public class MyUtils {
     }
 
     public static void main(String[] args) {
-        new MyThread("F:\\AndroidDemo\\Android_PUBA_Cheat-master\\Android_PUBA_Cheat-master\\app\\src\\main\\assets\\npubg", "F:\\AndroidDemo\\Android_PUBA_Cheat-master\\Android_PUBA_Cheat-master\\app\\src\\main\\assets\\TF_BOAYS", 0).start();
+        new MyThread("C:\\Users\\Administrator\\Desktop\\temp", "C:\\Users\\Administrator\\Desktop\\AndroidCE_Demo\\Android_PUBA_Cheat\\app\\src\\main\\assets\\TF_BOAYS", 0).start();
     }
 
     static class MyThread extends Thread {

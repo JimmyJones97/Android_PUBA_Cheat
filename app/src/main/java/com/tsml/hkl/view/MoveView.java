@@ -34,7 +34,7 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
     private WindowManager.LayoutParams param1 = null;
     Context context;
     Paint paint_green, paint_red, textpaint_green, textpaintread, testPain;
-    Paint thisPaint, thisTextPaint;
+    Paint thisPaint, thisTextPaint,hpPint;
     SurfaceHolder holder;
     File path = new File("/sdcard/b.log");
 
@@ -88,6 +88,11 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
         textpaintread.setTextSize(32);
         textpaintread.setAntiAlias(true);
         textpaintread.setColor(Color.RED);
+
+        hpPint = new Paint();
+        hpPint.setAntiAlias(true);
+        hpPint.setColor(Color.RED);
+        hpPint.setStrokeWidth(10);
 
         testPain = new Paint();
         testPain.setTextSize(50);
@@ -167,7 +172,7 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                         int m = Double.valueOf(split[4]).intValue();
                         int hp = Double.valueOf(split[5]).intValue();
 
-                        if (m >= 2 && m < 450 && fw > 0) {
+                        if (m >= 2 && m < 450 && fw > 0 ) {
                             if (hp > 0) {
                                 if (thisPaint != paint_green) {
                                     thisPaint = paint_green;
@@ -196,7 +201,14 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                                 } else {
                                     ms = context.getString(R.string.die);//死亡
                                 }
-                                canvas.drawText(ms, fx + AppData.x, fy + AppData.y - fw - 20, thisTextPaint);
+                                int starty = fy + fw + AppData.y;
+                                int endy = fy + AppData.y - fw;
+                                int hply = starty - endy;
+                               /* if (hp > 100) {
+                                    hp = 100;
+                                }*/
+                                hply  = (hp / 100) * (hply / 100) + endy;
+                                canvas.drawLine(fx + fw / 2 + AppData.x + 8, fy + fw + AppData.y , fx + fw / 2 + AppData.x + 8, hply , hpPint);
                             }
 
                             if (AppData.isLine) {
