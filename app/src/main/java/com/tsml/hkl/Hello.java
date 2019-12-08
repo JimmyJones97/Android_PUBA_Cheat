@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -47,12 +48,6 @@ public class Hello extends AppCompatActivity {
     }
 
     public void getXF() {
-
-        if (!SettingsCompat.canDrawOverlays(Hello.this)) {
-            ToastS.warning(this, "请授权悬浮窗权限", Toast.LENGTH_LONG);
-            SettingsCompat.manageDrawOverlays(Hello.this);
-        }
-
         isGrantExternalRW();
     }
 
@@ -60,11 +55,9 @@ public class Hello extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     public void isGrantExternalRW() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            int storagePermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             //检测是否有权限，如果没有权限，就需要申请
-            if (storagePermission != PackageManager.PERMISSION_GRANTED) {
-                //申请权限
-                requestPermissions(PERMISSIONS_CAMERA_AND_STORAGE, 0);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_CAMERA_AND_STORAGE, 0);
                 return;
             }
         }
@@ -104,7 +97,8 @@ public class Hello extends AppCompatActivity {
                         startActivity();
                     }
                 } else {
-                    ViewUpdate.threadUi(() -> ToastS.warning(Hello.this, "您必须授权权限才能使用比软件", Toast.LENGTH_SHORT).show());
+                    ActivityCompat.requestPermissions(this, PERMISSIONS_CAMERA_AND_STORAGE, 0);
+                    ViewUpdate.threadUi(() -> ToastS.warning(Hello.this, getString(R.string.permission), Toast.LENGTH_SHORT).show());
                 }
                 break;
         }
@@ -145,7 +139,7 @@ public class Hello extends AppCompatActivity {
             LinearLayout ok = view.findViewById(R.id.dialogLinearLayoutok);
             LinearLayout on = view.findViewById(R.id.dialogLinearLayoutch);
             TextView info = view.findViewById(R.id.dialogTextView1);
-            info.setText("请授权ROOT权限");
+            info.setText(getString(R.string.is_root));
 
             final CustomDialog mydialog = new CustomDialog(Hello.this, view, R.style.DialogTheme, false);
             mydialog.setCancelable(true);

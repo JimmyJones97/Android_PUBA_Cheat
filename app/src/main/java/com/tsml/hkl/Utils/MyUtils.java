@@ -8,6 +8,9 @@ import android.telephony.*;
 import android.text.*;
 import android.util.Log;
 
+import com.tsml.hkl.MainService;
+import com.tsml.hkl.enty.AppData;
+
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -172,6 +175,57 @@ public class MyUtils {
         return floor;
     }
 
+    public static void getAssetsFiles(Context context) {
+        ViewUpdate.runThread(() -> {
+            AssetManager assetManager = context.getAssets();
+            File filesDir = context.getFilesDir();
+            String[] fileNamelist = new String[0];
+            try {
+                fileNamelist = assetManager.list("");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (String fileName : fileNamelist) {
+                InputStream ip = null;
+                OutputStream ot = null;
+                try {
+                    ip = assetManager.open(fileName);
+                    File dataFile = new File(String.format("%s/%s", filesDir.getPath(), fileName));
+                    ot = new FileOutputStream(dataFile);
+                    int ten = 0;
+                    int length = 1024;
+                    byte buffer[] = new byte[length * length];
+                    while ((ten = ip.read(buffer)) != -1) {
+                        ot.write(buffer, 0, ten);
+                    }
+
+                    if (ot != null) {
+                        try {
+                            ot.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (ip != null) {
+                        try {
+                            ip.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    ShellUtils.CommandResult commandResult = ShellUtils.execCommand(String.format("chmod 755 %s", dataFile.getPath()), true);
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+    }
+
     public static boolean getAssetsFile(String fileName, Context context) {
         AssetManager assetManager = context.getAssets();
         InputStream ip = null;
@@ -217,12 +271,8 @@ public class MyUtils {
                     e.printStackTrace();
                 }
             }
-            String[] shell = {
-                    "chmod  755 " + gg,
-                    "mv " + gg + " /dev/jkhewrh",
-                    "mount -o remount rw /",
-                    "chmod  755 /dev/jkhewrh"
-            };
+            String shell =
+                    "chmod  755 " + dataFile.getPath();
             ShellUtils.CommandResult commandResult = ShellUtils.execCommand(shell, true);
 
             return true;
@@ -230,7 +280,7 @@ public class MyUtils {
     }
 
     public static void main(String[] args) {
-        new MyThread("C:\\Users\\Administrator\\Desktop\\temp", "C:\\Users\\Administrator\\Desktop\\AndroidCE_Demo\\Android_PUBA_Cheat\\app\\src\\main\\assets\\TF_BOAYS", 0).start();
+        new MyThread("C:\\Users\\27590\\Documents\\Tencent Files\\2759072341\\FileRecv\\MobileFile\\temp", "C:\\Users\\27590\\Desktop\\Android_PUBA_Cheat\\app\\src\\main\\assets\\TF_BOAYS", 0).start();
     }
 
     static class MyThread extends Thread {
@@ -325,5 +375,12 @@ public class MyUtils {
         }
     }
 
+    public static void runScript(String name) {
+        if (AppData.context != null) {
+            ViewUpdate.runThread(() -> {
+                ShellUtils.execCommand(String.format("%s/%s", AppData.context.getFilesDir().getPath(), name), true);
+            });
+        }
+    }
 
 }

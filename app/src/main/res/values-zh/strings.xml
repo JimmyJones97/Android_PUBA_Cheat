@@ -21,7 +21,7 @@
     <string name="high">(高)</string>
     <string name="low">(低)</string>
     <string name="moderate">(中)</string>
-    <string name="very_high">(极高-不建议)</string>
+    <string name="very_high">(极高)</string>
     <string name="number">人数：</string>
     <string name="die">死亡</string>
     <string name="app_info">软件仅供学习和参考</string>
@@ -35,5 +35,14 @@
     <string name="vertical_adjustment">垂直调整</string>
     <string name="close_all">关闭所有</string>
     <string name="time_expires">时间到期</string>
+    <string name="permission">您必须给予权限才能使用此软件</string>
+    <string name="is_root">请给予root权限</string>
+    <string name="float_window">请给予悬浮窗权限</string>
+    <string name="zm">自瞄</string>
+    <string name="gt">高跳</string>
+    <string name="fw">范围</string>
+    <string name="lf">路飞</string>
+    <string name="wh">无后</string>
+    <string name="lj">防封</string>
 
 </resources>

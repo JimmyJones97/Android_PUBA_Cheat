@@ -5,6 +5,7 @@ package com.tsml.hkl.view;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -24,11 +25,17 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.tsml.hkl.Hello;
 import com.tsml.hkl.MainService;
 import com.tsml.hkl.Toast.T;
 import com.tsml.hkl.Utils.MyUtils;
 import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.R;
+import com.tsml.hkl.hosts.vservice.VhostsService;
+
+import static com.tsml.hkl.Utils.MyUtils.runScript;
+import static com.tsml.hkl.hosts.vservice.VhostsService.startVService;
+import static com.tsml.hkl.hosts.vservice.VhostsService.stopVService;
 
 @SuppressWarnings("all")
 public class SetView extends FrameLayout implements View.OnClickListener, View.OnTouchListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
@@ -42,6 +49,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
     Context context;
     Switch sw;   //透视运行开关
     TextView tefps;
+
 
     public SetView(Context context) {
         super(context);
@@ -81,7 +89,15 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         ((Switch) toucherLayout1.findViewById(R.id.swfps)).setOnCheckedChangeListener(this);
         ((Switch) toucherLayout1.findViewById(R.id.swline)).setOnCheckedChangeListener(this);
         sw = toucherLayout1.findViewById(R.id.swfk);
+
         ((Switch) toucherLayout1.findViewById(R.id.swm)).setOnCheckedChangeListener(this);
+
+        ((Switch) toucherLayout1.findViewById(R.id.swzm)).setOnCheckedChangeListener(this);
+        ((Switch) toucherLayout1.findViewById(R.id.swfw)).setOnCheckedChangeListener(this);
+        ((Switch) toucherLayout1.findViewById(R.id.swlf)).setOnCheckedChangeListener(this);
+        ((Switch) toucherLayout1.findViewById(R.id.swgt)).setOnCheckedChangeListener(this);
+        ((Switch) toucherLayout1.findViewById(R.id.swwh)).setOnCheckedChangeListener(this);
+        ((Switch) toucherLayout1.findViewById(R.id.swlj)).setOnCheckedChangeListener(this);
 
         sw.setOnCheckedChangeListener(this);
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -115,6 +131,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         getWH();
         addView(toucherLayout1);
 
+        // startVPN();
     }
 
 
@@ -128,7 +145,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         } else if (i > 20 && i <= 50) {
             return context.getString(R.string.high);//高
         } else if (i > 50 && i <= 70) {
-            return  context.getString(R.string.moderate);//中
+            return context.getString(R.string.moderate);//中
         } else if (i > 70 && i <= 100) {
             return context.getString(R.string.low);//低
         }
@@ -141,6 +158,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         switch (v.getId()) {
             case R.id.wei://关闭
                 MainService.example.stopAll();
+                shutdownVPN();
             default:
                 break;
         }
@@ -291,7 +309,41 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
             AppData.isM = isChecked;
         } else if (buttonView.getId() == R.id.swfps) {
             AppData.isFps = isChecked;
+        } else if (buttonView.getId() == R.id.swlf) {
+            //路飞
+            runScript("lf");
+        } else if (buttonView.getId() == R.id.swwh) {
+            //无后
+            runScript("wh");
+            runScript("wh1");
+        } else if (buttonView.getId() == R.id.swzm) {
+            //自瞄
+            runScript("zm");
+        } else if (buttonView.getId() == R.id.swfw) {
+            //范围
+            runScript("fw");
+        } else if (buttonView.getId() == R.id.swgt) {
+            //高跳
+            runScript("gt");
+        } else if (buttonView.getId() == R.id.swlj) {
+            if (isChecked) {
+                    startVService(MainService.example, 1);
+
+
+
+            } else {
+                shutdownVPN();
+            }
         }
+    }
+
+    private void startVPN() {
+        Intent vpnIntent = VhostsService.prepare(MainService.example);
+    }
+
+
+    private void shutdownVPN() {
+        stopVService(MainService.example);
     }
 
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/pg">
+    android:background="@drawable/background">
 
     <LinearLayout
         android:id="@+id/lay_login_container"
@@ -54,7 +54,7 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/login_line_color"
+                android:textColorHint="@color/dimgrey"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/font_16" />
 

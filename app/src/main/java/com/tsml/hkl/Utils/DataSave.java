@@ -15,7 +15,7 @@ public class DataSave {
 
     public SharedPreferences getSp() {
         if (sp == null) {
-            sp = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+            sp = context.getSharedPreferences("gfuyewgufe", Context.MODE_PRIVATE);
         }
         return sp;
     }

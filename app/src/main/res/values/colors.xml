@@ -163,7 +163,7 @@
     <color name="login_line_color">#dededf</color>
     <color name="login_input_active">#31b968</color>
     <color name="login_other_color">#cacaca</color>
-    <color name="account_input_bg_color">#33ffffff</color>
+    <color name="account_input_bg_color">#66ffffff</color>
     <color name="account_lock_bg">#ff43815c</color>
     <color name="account_lock_font_color">#FF68997C</color>
     <color name="account_input_color">#c9c9c9</color>

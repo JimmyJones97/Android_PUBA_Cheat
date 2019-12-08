@@ -3,8 +3,11 @@ package com.tsml.hkl;
 import android.annotation.*;
 import android.app.Activity;
 import android.content.*;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.*;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.view.View.*;
@@ -14,6 +17,7 @@ import com.google.gson.Gson;
 
 
 import java.io.*;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -29,6 +33,8 @@ import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.enty.MyRequest;
 import com.tsml.hkl.enty.UserOut;
 import com.tsml.hkl.R;
+import com.tsml.hkl.hosts.vservice.VhostsService;
+import com.tsml.hkl.view.SetView;
 
 import static com.tsml.hkl.Utils.HttpUtils.postStringParameters;
 
@@ -43,6 +49,16 @@ public class w extends AppCompatActivity implements OnClickListener {
     boolean bo = false;
     String us;
     DataSave dataSave;
+
+    private static final String TAG = w.class.getSimpleName();
+    private static final int VPN_REQUEST_CODE = 0x0F;
+    private static final int SELECT_FILE_CODE = 0x05;
+    public static final String PREFS_NAME = w.class.getName();
+    public static final String IS_LOCAL = "IS_LOCAL";
+    public static final String HOSTS_URL = "HOSTS_URL";
+    public static final String HOSTS_URI = "HOST_URI";
+    public static final String NET_HOST_FILE = "net_hosts";
+
 
     private String imei() {
         if (dataSave == null) {
@@ -65,7 +81,13 @@ public class w extends AppCompatActivity implements OnClickListener {
         }
         return null;
     }
-
+    private void startVPN() {
+        Intent vpnIntent = VhostsService.prepare(this);
+        if (vpnIntent != null)
+            startActivityForResult(vpnIntent, VPN_REQUEST_CODE);
+        else
+            onActivityResult(VPN_REQUEST_CODE, RESULT_OK, null);
+    }
     private String user() {
         if (dataSave == null) {
             dataSave = new DataSave(w.this);
@@ -73,12 +95,14 @@ public class w extends AppCompatActivity implements OnClickListener {
         return dataSave.getString("user");//获取账号
     }
 
+
     public void initView() {
         setContentView(R.layout.activity_main);
         user = findViewById(R.id.et_login_pwd);
         submit = findViewById(R.id.bt_login_submit);
         submit.setOnClickListener(this);
         dataSave = new DataSave(w.this);
+        startVPN();
     }
 
     @Override
@@ -124,6 +148,8 @@ public class w extends AppCompatActivity implements OnClickListener {
 
 
     public void login(String key) {
+
+
 
         final int count = (int) ((Math.random() * 9 + 1) * 100000);
         String rokey = imei();
@@ -178,5 +204,12 @@ public class w extends AppCompatActivity implements OnClickListener {
 
     }
 
-
+ /*   @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == VPN_REQUEST_CODE && resultCode == RESULT_OK) {
+            startService(new Intent(this, VhostsService.class).setAction(VhostsService.ACTION_CONNECT));
+        } else if (requestCode == SELECT_FILE_CODE && resultCode == RESULT_OK) {
+        }
+    }*/
 }

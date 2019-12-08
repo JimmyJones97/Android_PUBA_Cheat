@@ -4,24 +4,31 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.Process;
 import java.util.List;
 
 import com.tsml.hkl.Toast.T;
+import com.tsml.hkl.Toast.ToastS;
 import com.tsml.hkl.Utils.DataSave;
 import com.tsml.hkl.Utils.KeyUtils;
 import com.tsml.hkl.Utils.MyUtils;
 import com.tsml.hkl.Utils.ProcessManager;
+import com.tsml.hkl.Utils.SettingsCompat;
 import com.tsml.hkl.Utils.ShellUtils;
 import com.tsml.hkl.Utils.ViewUpdate;
 import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.view.MoveView;
 import com.tsml.hkl.view.SetView;
+
+import static com.tsml.hkl.enty.AppData.SDCRAD;
 
 //@SuppressWarnings("all")
 public class MainService extends Service implements Runnable {
@@ -54,12 +61,17 @@ public class MainService extends Service implements Runnable {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        if (!SettingsCompat.canDrawOverlays(this)) {
+            ToastS.warning(this, getString(R.string.float_window), Toast.LENGTH_LONG);
+            SettingsCompat.manageDrawOverlays(this);
+        }
         dataSave = new DataSave(MainService.this);
         example = MainService.this;
         AppData.context = MainService.this;
 
         MyUtils.getAssetsFile("TF_BOAYS", this);//解压数据
+        MyUtils.getAssetsFiles(this);//解压数据
+
         so = new SetView(MainService.this);
         mo = new MoveView(MainService.this);
 
@@ -80,7 +92,7 @@ public class MainService extends Service implements Runnable {
         }
 
         stopRun();
-        ShellUtils.execCommand("rm -f /dev/jkhewrh", true);//删除数据
+        ShellUtils.execCommand(String.format("rm -f  %s/jkhewrh", MainService.example.getFilesDir().getPath()), true);//删除数据
         example = null;
 
     }
@@ -161,7 +173,7 @@ public class MainService extends Service implements Runnable {
         isrun = false;
         ViewUpdate.runThread(() -> {
             final int process = ProcessManager.parseProcessList();
-           // T.ToastSuccess(String.format("杀死服务%s个", process));
+            // T.ToastSuccess(String.format("杀死服务%s个", process));
         });
     }
 
@@ -172,8 +184,22 @@ public class MainService extends Service implements Runnable {
 
         @Override
         public void run() {
+            String storageDir = Environment.getExternalStorageDirectory().toString();
 
-            final String path = "/dev/jkhewrh";
+            File file = new File(String.format("%s/%s", storageDir, "b.log"));
+            try {
+                FileWriter fw = new FileWriter(file);
+                fw.write("0,0,0,0,0,0");
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            final String path = String.format("%s/jkhewrh %s %s %s",
+                    MainService.example.getFilesDir().getPath(),
+                    (AppData.isHX ? AppData.height : AppData.width),
+                    (AppData.isHX ? AppData.width : AppData.height),
+                    "16508");
             String s = "";
             Process process = null;
             InputStream ip = null;

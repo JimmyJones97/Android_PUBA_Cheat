@@ -15,6 +15,10 @@ public class AppData {
     public static boolean isRun = false;
     public static boolean isM = false;
     public static boolean isFps = false;
+
+    public static boolean isHX = false;//默认不为横屏
+
     public static Context context;
     public final static String KEY = "uweioqjkdvxklamsfhieb";
+    public final static String SDCRAD = "/sdcrad/b.log";
 }

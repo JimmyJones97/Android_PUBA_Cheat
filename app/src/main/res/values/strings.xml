@@ -34,4 +34,13 @@
     <string name="vertical_adjustment">Vertical adjustment</string>
     <string name="close_all">Close all</string>
     <string name="time_expires">Time expires</string>
+    <string name="permission">"You must give permission to continue using this software "</string>
+    <string name="is_root">Please grant ROOT permission.</string>
+    <string name="float_window">Please grant the floating window permission.</string>
+    <string name="zm">Automatic aiming</string>
+    <string name="gt">Jump higher</string>
+    <string name="lf">Luffy</string>
+    <string name="wh">No backseat</string>
+    <string name="fw">Range</string>
+    <string name="lj">Hosts interception</string>
 </resources>
