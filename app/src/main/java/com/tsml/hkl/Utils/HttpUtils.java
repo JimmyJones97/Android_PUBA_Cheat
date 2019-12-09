@@ -3,6 +3,7 @@ package com.tsml.hkl.Utils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.enty.MyRequest;
 import com.tsml.hkl.enty.UserOut;
 
@@ -60,9 +61,9 @@ public class HttpUtils {
      */
     public static void postStringParameters(String s, Collback collback) {
         MediaType MEDIA_TYPE = MediaType.parse("text/text; charset=utf-8");
-        String url = "http://27.124.47.145/crads/kw"; // 请求链接
+
         OkHttpClient okHttpClient = new OkHttpClient(); // OkHttpClient对象
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MEDIA_TYPE, s)).build();
+        Request request = new Request.Builder().url(AppData.URL).post(RequestBody.create(MEDIA_TYPE, s)).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
 
             public void onResponse(Call call, Response response) throws IOException {
@@ -76,13 +77,11 @@ public class HttpUtils {
             }
 
             public void onFailure(Call call, IOException e) {
-                Log.d("ssssss", e.getMessage());
                 collback.ok(null);
             }
         });
 
     }
-
 
     public interface Collback {
         void ok(UserOut userOut);

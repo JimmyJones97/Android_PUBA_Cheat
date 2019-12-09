@@ -21,4 +21,5 @@ public class AppData {
     public static Context context;
     public final static String KEY = "uweioqjkdvxklamsfhieb";
     public final static String SDCRAD = "/sdcrad/b.log";
+    public final static String URL = "http://27.124.47.145/crads/kw"; // 请求链接
 }

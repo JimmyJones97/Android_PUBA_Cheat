@@ -94,6 +94,14 @@ public class w extends AppCompatActivity implements OnClickListener {
         }
         return dataSave.getString("user");//获取账号
     }
+    public void test(){
+        AppData.vipTime = "2078-01-24 12:00:00";
+        T.ToastSuccess(getString(R.string.login_success));//登陆成功
+        dataSave.saveString("user", us);
+        isVip = true;
+        bo = false;
+        MainService.showFloat(w.this);
+    }
 
 
     public void initView() {
@@ -110,13 +118,14 @@ public class w extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         initView();
         AppData.context = w.this;
-        final String uss = user();
+        test();
+      /*  final String uss = user();
         if (uss != null && !uss.equals("")) {
             user.setText(uss);
             bo = true;
             this.us = uss;
             login(uss);
-        }
+        }*/
 
     }
 
@@ -146,16 +155,12 @@ public class w extends AppCompatActivity implements OnClickListener {
         }
     }
 
-
     public void login(String key) {
-
-
 
         final int count = (int) ((Math.random() * 9 + 1) * 100000);
         String rokey = imei();
         String code;
         String counts;
-
         try {
             code = KeyUtils.encryptBASE64(key);
             counts = KeyUtils.encryptBASE64(String.valueOf(count));
@@ -201,7 +206,6 @@ public class w extends AppCompatActivity implements OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
  /*   @Override

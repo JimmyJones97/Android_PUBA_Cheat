@@ -46,15 +46,7 @@ public class UDPOutput implements Runnable
 
     private static final int MAX_CACHE_SIZE = 50;
     private LRUCache<String, DatagramChannel> channelCache =
-            new LRUCache<>(MAX_CACHE_SIZE, new LRUCache.CleanupCallback<String, DatagramChannel>()
-            {
-                @Override
-                public void cleanup(Map.Entry<String, DatagramChannel> eldest)
-                {
-                    closeChannel(eldest.getValue());
-                }
-            });
-
+            new LRUCache<>(MAX_CACHE_SIZE, (LRUCache.CleanupCallback<String, DatagramChannel>) eldest -> closeChannel(eldest.getValue()));
     public UDPOutput(ConcurrentLinkedQueue<Packet> inputQueue, ConcurrentLinkedQueue<ByteBuffer> outputQueue, Selector selector, ReentrantLock udpSelectorLock, VhostsService vpnService)
     {
         this.inputQueue = inputQueue;

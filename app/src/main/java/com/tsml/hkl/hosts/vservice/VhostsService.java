@@ -32,15 +32,17 @@ import android.support.v4.content.LocalBroadcastManager;
 
 
 import com.tsml.hkl.R;
-import com.tsml.hkl.hosts.NetworkReceiver;
 import com.tsml.hkl.hosts.util.LogUtils;
 
+import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.Selector;
@@ -79,7 +81,6 @@ public class VhostsService extends VpnService {
     private Selector tcpSelector;
     private ReentrantLock udpSelectorLock;
     private ReentrantLock tcpSelectorLock;
-    private NetworkReceiver netStateReceiver;
     private static boolean isOAndBoot = false;
 
 
@@ -139,8 +140,7 @@ public class VhostsService extends VpnService {
 
         try {
             AssetManager assetManager = this.getAssets();
-             InputStream inputStream =  assetManager.open("hosts");
-
+            InputStream inputStream = assetManager.open("hosts");
             new Thread() {
                 public void run() {
                     DnsChange.handle_hosts(inputStream);
@@ -160,8 +160,6 @@ public class VhostsService extends VpnService {
             LogUtils.d(TAG, "use dns:" + VPN_DNS4);
             builder.addRoute(VPN_DNS4, 32);
             builder.addRoute(VPN_DNS6, 128);
-//            builder.addRoute(VPN_ROUTE,0);
-//            builder.addRoute(VPN_ROUTE6,0);
             builder.addDnsServer(VPN_DNS4);
             builder.addDnsServer(VPN_DNS6);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -179,24 +177,6 @@ public class VhostsService extends VpnService {
         }
     }
 
-    private void registerNetReceiver() {
-        //wifi 4G state
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-//        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-//        netStateReceiver = new NetworkReceiver();
-//        registerReceiver(netStateReceiver, filter);
-
-    }
-
-    private void unregisterNetReceiver() {
-//        if (netStateReceiver != null) {
-//            unregisterReceiver(netStateReceiver);
-//            netStateReceiver = null;
-//        }
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
@@ -209,7 +189,6 @@ public class VhostsService extends VpnService {
     }
 
     public static boolean isRunning() {
-
         return isRunning;
     }
 
@@ -305,10 +284,21 @@ public class VhostsService extends VpnService {
 
             FileChannel vpnInput = new FileInputStream(vpnFileDescriptor).getChannel();
             FileChannel vpnOutput = new FileOutputStream(vpnFileDescriptor).getChannel();
+            OutputStream ot = null;
+
+            BufferedOutputStream buffer = null;
+
+            try {
+                ot = new FileOutputStream("/storage/emulated/0/l.txt", true);
+                buffer = new BufferedOutputStream(ot);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             try {
                 ByteBuffer bufferToNetwork = null;
                 boolean dataSent = true;
                 boolean dataReceived;
+                int i = 0;
                 while (!Thread.interrupted()) {
                     if (dataSent)
                         bufferToNetwork = ByteBufferPool.acquire();
@@ -317,7 +307,11 @@ public class VhostsService extends VpnService {
 
                     // TODO: Block when not connected
                     int readBytes = vpnInput.read(bufferToNetwork);
+
                     if (readBytes > 0) {
+
+                        buffer.write(bufferToNetwork.array());
+
                         dataSent = true;
                         bufferToNetwork.flip();
                         Packet packet = new Packet(bufferToNetwork);
@@ -328,6 +322,11 @@ public class VhostsService extends VpnService {
                         } else {
                             LogUtils.w(TAG, "Unknown packet type");
                             dataSent = false;
+                        }
+                        i++;
+                        if (i >= (1024 * 1024)) {
+                            buffer.flush();
+                            i = 0;
                         }
                     } else {
                         dataSent = false;
@@ -353,12 +352,20 @@ public class VhostsService extends VpnService {
                     if (!dataSent && !dataReceived)
                         Thread.sleep(11);
                 }
+                buffer.flush();
             } catch (InterruptedException e) {
                 LogUtils.i(TAG, "Stopping");
             } catch (IOException e) {
                 LogUtils.w(TAG, e.toString(), e);
             } finally {
                 closeResources(vpnInput, vpnOutput);
+                if (ot != null) {
+                    try {
+                        ot.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

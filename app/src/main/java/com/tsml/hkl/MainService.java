@@ -2,8 +2,11 @@ package com.tsml.hkl;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.Color;
 import android.os.*;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 
@@ -28,6 +31,8 @@ import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.view.MoveView;
 import com.tsml.hkl.view.SetView;
 
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
+import static com.tsml.hkl.Utils.MyUtils.writeText;
 import static com.tsml.hkl.enty.AppData.SDCRAD;
 
 //@SuppressWarnings("all")
@@ -74,7 +79,8 @@ public class MainService extends Service implements Runnable {
 
         so = new SetView(MainService.this);
         mo = new MoveView(MainService.this);
-
+        //foregroundRun();
+        notification();
     }
 
 
@@ -184,16 +190,10 @@ public class MainService extends Service implements Runnable {
 
         @Override
         public void run() {
-            String storageDir = Environment.getExternalStorageDirectory().toString();
 
-            File file = new File(String.format("%s/%s", storageDir, "b.log"));
-            try {
-                FileWriter fw = new FileWriter(file);
-                fw.write("0,0,0,0,0,0");
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            writeText(new File(String.format("%s/%s",
+                    Environment.getExternalStorageDirectory().toString(), "b.log")),
+                    "0,0,0,0,0,0");
 
             final String path = String.format("%s/jkhewrh %s %s %s",
                     MainService.example.getFilesDir().getPath(),
@@ -245,8 +245,18 @@ public class MainService extends Service implements Runnable {
     }
 
 
-    public void stopAll() {
+    /**
+     * 使服务更好的运行在后台， 不被销毁（手机内存低时不优先销毁）
+     */
+    public void notification() {
+        Notification notification = MyUtils.showNotification(MainService.this);
+        startForeground(0x1989, notification);
+    }
 
+    /**
+     * 关闭所有
+     */
+    public void stopAll() {
         ViewUpdate.runThread(() -> {
             if (mo != null) {
                 mo.removeView();
@@ -257,11 +267,10 @@ public class MainService extends Service implements Runnable {
                 so.removeView();
                 so = null;
             }
-
             isrun = false;
             MainService.this.stopSelf();
         });
-
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**
@@ -275,6 +284,7 @@ public class MainService extends Service implements Runnable {
                 if (!time) {
                     stopAll();
                     T.ToastWarning(getString(R.string.time_expires));
+                    break;
                 }
                 try {
                     Thread.sleep(1000 * 60);

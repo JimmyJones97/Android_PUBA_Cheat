@@ -222,12 +222,10 @@ public class Packet {
         public void fillHeader(ByteBuffer buffer) {
         }
 
-        ;
-
         public void updateIpHeader(Packet packet, int totalLength) {
         }
 
-        ;
+
     }
 
     public static class IP4Header extends IPHeader {

@@ -201,7 +201,6 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         AppData.floor = outPoint.x / 2 - 1;
     }
 
-
     float downX, downY, xx, yy;
     float moveX, moveY;
     private boolean ismovecl;
@@ -327,8 +326,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
             runScript("gt");
         } else if (buttonView.getId() == R.id.swlj) {
             if (isChecked) {
-                    startVService(MainService.example, 1);
-
+                startVService(MainService.example, 1);
 
 
             } else {
