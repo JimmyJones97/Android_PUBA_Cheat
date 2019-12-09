@@ -222,8 +222,6 @@ public class MoveView extends SurfaceView implements SurfaceHolder.Callback {
                                 if (hp > 100) {
                                     hp = 100;
                                 }
-
-
                                 hply = endy + fgsq;*/
                                 //canvas.drawLine(fx + fw / 2 + AppData.x + 8, fy + fw + AppData.y, fx + fw / 2 + AppData.x + 8,/*stopY*/ hply, hpPint);
                             }

@@ -284,21 +284,12 @@ public class VhostsService extends VpnService {
 
             FileChannel vpnInput = new FileInputStream(vpnFileDescriptor).getChannel();
             FileChannel vpnOutput = new FileOutputStream(vpnFileDescriptor).getChannel();
-            OutputStream ot = null;
 
-            BufferedOutputStream buffer = null;
-
-            try {
-                ot = new FileOutputStream("/storage/emulated/0/l.txt", true);
-                buffer = new BufferedOutputStream(ot);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
             try {
                 ByteBuffer bufferToNetwork = null;
                 boolean dataSent = true;
                 boolean dataReceived;
-                int i = 0;
+
                 while (!Thread.interrupted()) {
                     if (dataSent)
                         bufferToNetwork = ByteBufferPool.acquire();
@@ -309,8 +300,6 @@ public class VhostsService extends VpnService {
                     int readBytes = vpnInput.read(bufferToNetwork);
 
                     if (readBytes > 0) {
-
-                        buffer.write(bufferToNetwork.array());
 
                         dataSent = true;
                         bufferToNetwork.flip();
@@ -323,11 +312,7 @@ public class VhostsService extends VpnService {
                             LogUtils.w(TAG, "Unknown packet type");
                             dataSent = false;
                         }
-                        i++;
-                        if (i >= (1024 * 1024)) {
-                            buffer.flush();
-                            i = 0;
-                        }
+
                     } else {
                         dataSent = false;
                     }
@@ -352,20 +337,13 @@ public class VhostsService extends VpnService {
                     if (!dataSent && !dataReceived)
                         Thread.sleep(11);
                 }
-                buffer.flush();
+
             } catch (InterruptedException e) {
                 LogUtils.i(TAG, "Stopping");
             } catch (IOException e) {
                 LogUtils.w(TAG, e.toString(), e);
             } finally {
                 closeResources(vpnInput, vpnOutput);
-                if (ot != null) {
-                    try {
-                        ot.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }
     }

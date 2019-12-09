@@ -66,7 +66,7 @@ public class HttpUtils {
         Request request = new Request.Builder().url(AppData.URL).post(RequestBody.create(MEDIA_TYPE, s)).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
 
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 try {
                     Gson gson = new Gson();
                     UserOut userOut = gson.fromJson(KeyUtils.jie(response.body().string()), UserOut.class);

@@ -24,8 +24,6 @@ public class DataSave {
         SharedPreferences.Editor editor = getSp().edit();
         editor.putInt(key, value);
         editor.apply();
-
-
     }
 
     public void saveString(String key, String value) {
@@ -40,7 +38,6 @@ public class DataSave {
         editor.putLong(key, value);
         editor.apply();
     }
-
 
     public int getInt(String key) {
         return getSp().getInt(key, -1);
