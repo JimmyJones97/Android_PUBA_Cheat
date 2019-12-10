@@ -44,5 +44,10 @@
     <string name="lf">路飞</string>
     <string name="wh">无后</string>
     <string name="lj">防封</string>
+    <string name="fail">失败</string>
+    <string name="success">成功</string>
+    <string name="cheat">防封</string>
+    <string name="restore">恢复</string>
+    <string name="cheat_errer">只有开启防封后才能使用还原</string>
 
 </resources>

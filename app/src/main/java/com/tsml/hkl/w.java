@@ -94,7 +94,7 @@ public class w extends AppCompatActivity implements OnClickListener {
         }
         return dataSave.getString("user");//获取账号
     }
-    public void test(){
+   /* public void test(){
         AppData.vipTime = "2078-01-24 12:00:00";
         T.ToastSuccess(getString(R.string.login_success));//登陆成功
         dataSave.saveString("user", us);
@@ -102,7 +102,7 @@ public class w extends AppCompatActivity implements OnClickListener {
         bo = false;
         MainService.showFloat(w.this);
     }
-
+*/
 
     public void initView() {
         setContentView(R.layout.activity_main);
@@ -118,14 +118,13 @@ public class w extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         initView();
         AppData.context = w.this;
-        test();
-      /*  final String uss = user();
+        final String uss = user();
         if (uss != null && !uss.equals("")) {
             user.setText(uss);
             bo = true;
             this.us = uss;
             login(uss);
-        }*/
+        }
 
     }
 
@@ -216,4 +215,5 @@ public class w extends AppCompatActivity implements OnClickListener {
         } else if (requestCode == SELECT_FILE_CODE && resultCode == RESULT_OK) {
         }
     }*/
+
 }

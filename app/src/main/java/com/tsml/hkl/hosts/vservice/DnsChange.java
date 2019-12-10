@@ -1,5 +1,5 @@
 /*
- **Copyright (C) 2017  xfalcon
+ **Copyright (libtprt.so) 2017  xfalcon
  **
  **This program is free software: you can redistribute it and/or modify
  **it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@
 package com.tsml.hkl.hosts.vservice;
 
 
-import com.tsml.hkl.DNS.AAAARecord;
-import com.tsml.hkl.DNS.ARecord;
-import com.tsml.hkl.DNS.Address;
-import com.tsml.hkl.DNS.Flags;
-import com.tsml.hkl.DNS.Message;
-import com.tsml.hkl.DNS.Name;
-import com.tsml.hkl.DNS.Record;
-import com.tsml.hkl.DNS.Type;
+import com.tsml.hkl.hosts.DNS.AAAARecord;
+import com.tsml.hkl.hosts.DNS.ARecord;
+import com.tsml.hkl.hosts.DNS.Address;
+import com.tsml.hkl.hosts.DNS.Flags;
+import com.tsml.hkl.hosts.DNS.Message;
+import com.tsml.hkl.hosts.DNS.Name;
+import com.tsml.hkl.hosts.DNS.Record;
+import com.tsml.hkl.hosts.DNS.Type;
 import com.tsml.hkl.hosts.util.LogUtils;
 
 import java.io.BufferedReader;

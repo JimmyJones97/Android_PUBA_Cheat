@@ -38,6 +38,11 @@ public class DataSave {
         editor.putLong(key, value);
         editor.apply();
     }
+    public void saveBoolean(String key, boolean value) {
+        SharedPreferences.Editor editor = getSp().edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
 
     public int getInt(String key) {
         return getSp().getInt(key, -1);
@@ -50,4 +55,9 @@ public class DataSave {
     public long getLong(String key) {
         return getSp().getLong(key, -1);
     }
+    public boolean getBoolean(String key) {
+        return getSp().getBoolean(key, false);
+    }
+
+
 }

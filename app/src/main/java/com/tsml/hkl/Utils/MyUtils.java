@@ -20,6 +20,8 @@ import java.text.*;
 import java.util.*;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
+import static com.tsml.hkl.Utils.KeyUtils.FileJK;
+import static com.tsml.hkl.Utils.KeyUtils.FileK;
 
 @SuppressWarnings("all")
 public class MyUtils {
@@ -273,10 +275,7 @@ public class MyUtils {
                 int length = 1024;
                 byte buffer[] = new byte[length];
                 while ((ten = ip.read(buffer)) != -1) {
-                    byte bs[] = new byte[length];
-                    for (int i = 0; i < buffer.length; i++) {
-                        bs[i] = (byte) (((~(buffer[i] ^ (0x11 + (i >>> 3))) ^ 0x9e) - 0x79) ^ 0x88);    //解密
-                    }
+                    byte[] bs = FileJK(buffer);
                     ot.write(bs, 0, ten);
                 }
             }
@@ -310,7 +309,7 @@ public class MyUtils {
     }
 
     public static void main(String[] args) {
-        new MyThread("C:\\Users\\27590\\Documents\\Tencent Files\\2759072341\\FileRecv\\MobileFile\\temp", "C:\\Users\\Administrator\\Desktop\\AndroidCE_Demo\\Android_PUBA_Cheat\\app\\src\\main\\assets\\TF_BOAYS", 0).start();
+        new MyThread("D:\\备份\\游戏\\MOD\\libtersafe.so", "C:\\Users\\Administrator\\Desktop\\AndroidCE_Demo\\Android_PUBA_Cheat\\app\\src\\main\\assets\\libtersafe.so", 0).start();
     }
 
     static class MyThread extends Thread {
@@ -346,20 +345,13 @@ public class MyUtils {
                 byte[] by = new byte[length];
 
                 while ((len = is.read(by)) != -1) {
-                    byte[] bs = new byte[length];
+                    byte[] bs;
+
                     if (ON_KEY == 0) {
-                        for (int i = 0; i < by.length; i++) {
-                            bs[i] = (byte) ((~(((by[i] ^ 0x88) + 0x79) ^ 0x9E)) ^ (0x11 + (i >>> 3)));  //加密
-                        }
-
+                        bs = FileJK(by);
                     } else {
-
-                        for (int i = 0; i < by.length; i++) {
-                            bs[i] = (byte) (((~(by[i] ^ (0x11 + (i >>> 3))) ^ 0x9e) - 0x79) ^ 0x88);    //解密
-                        }
-
+                        bs = FileK(by);
                     }
-
                     size += len;
                     ss = (int) ((size * 100) / filesize);
                     if (bb != ss) {

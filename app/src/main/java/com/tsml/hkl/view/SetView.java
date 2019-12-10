@@ -1,6 +1,6 @@
 package com.tsml.hkl.view;
 /*
- * Copyright (C) 2016 Facishare Technology Co., Ltd. All Rights Reserved.
+ * Copyright (libtprt.so) 2016 Facishare Technology Co., Ltd. All Rights Reserved.
  *
  */
 
@@ -28,7 +28,9 @@ import android.widget.TextView;
 import com.tsml.hkl.Hello;
 import com.tsml.hkl.MainService;
 import com.tsml.hkl.Toast.T;
+import com.tsml.hkl.Utils.DataUtils;
 import com.tsml.hkl.Utils.MyUtils;
+import com.tsml.hkl.Utils.ViewUpdate;
 import com.tsml.hkl.enty.AppData;
 import com.tsml.hkl.R;
 import com.tsml.hkl.hosts.vservice.VhostsService;
@@ -94,7 +96,7 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
 
         ((Switch) toucherLayout1.findViewById(R.id.swzm)).setOnCheckedChangeListener(this);
         ((Switch) toucherLayout1.findViewById(R.id.swfw)).setOnCheckedChangeListener(this);
-        ((Switch) toucherLayout1.findViewById(R.id.swlf)).setOnCheckedChangeListener(this);
+       /* ((Switch) toucherLayout1.findViewById(R.id.swlf)).setOnCheckedChangeListener(this);*/
         ((Switch) toucherLayout1.findViewById(R.id.swgt)).setOnCheckedChangeListener(this);
         ((Switch) toucherLayout1.findViewById(R.id.swwh)).setOnCheckedChangeListener(this);
         ((Switch) toucherLayout1.findViewById(R.id.swlj)).setOnCheckedChangeListener(this);
@@ -125,6 +127,9 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         cont = toucherLayout1.findViewById(R.id.contor);
         im.setOnTouchListener(this);
         wei.setOnClickListener(this);
+
+        ((Button) toucherLayout1.findViewById(R.id.game_back)).setOnClickListener(this);
+        ((Button) toucherLayout1.findViewById(R.id.game_restore)).setOnClickListener(this);
 
         seekbar_nomal.setOnSeekBarChangeListener(this);
         seekbar_nomab.setOnSeekBarChangeListener(this);
@@ -159,9 +164,43 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
             case R.id.wei://关闭
                 MainService.example.stopAll();
                 shutdownVPN();
+            case R.id.game_back:
+                gameBack();
+                break;
+            case R.id.game_restore:
+                Restore();
+                break;
             default:
                 break;
         }
+    }
+
+    public void gameBack() {
+        ViewUpdate.runThread(() -> {
+            boolean gameAssetsFiles = DataUtils.getGameAssetsFiles(context);
+            if (gameAssetsFiles) {
+                T.ToastSuccess(context.getString(R.string.success));//成功
+            } else {
+                T.ToastError(context.getString(R.string.fail));//失败
+            }
+        });
+
+    }
+
+    public void Restore() {
+        if (!MainService.example.dataSave.getBoolean(AppData.GAME_BACK)) {
+            T.ToastWarning(context.getString(R.string.cheat_errer));
+            return;
+        }
+
+        ViewUpdate.runThread(() -> {
+            boolean restore = DataUtils.Restore(context);
+            if (restore) {
+                T.ToastSuccess(context.getString(R.string.success));//成功
+            } else {
+                T.ToastSuccess(context.getString(R.string.fail));//成功
+            }
+        });
     }
 
     public void updateViewPosition() {
@@ -308,10 +347,10 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
             AppData.isM = isChecked;
         } else if (buttonView.getId() == R.id.swfps) {
             AppData.isFps = isChecked;
-        } else if (buttonView.getId() == R.id.swlf) {
+        }/* else if (buttonView.getId() == R.id.swlf) {
             //路飞
             runScript("lf");
-        } else if (buttonView.getId() == R.id.swwh) {
+        }*/ else if (buttonView.getId() == R.id.swwh) {
             //无后
             runScript("wh");
             runScript("wh1");
@@ -327,7 +366,6 @@ public class SetView extends FrameLayout implements View.OnClickListener, View.O
         } else if (buttonView.getId() == R.id.swlj) {
             if (isChecked) {
                 startVService(MainService.example, 1);
-
 
             } else {
                 shutdownVPN();

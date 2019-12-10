@@ -63,7 +63,7 @@ import java.util.List;
  * call {@link #disposeWhenFinished()} to ensure that any in-progress operation
  * completes before the object is disposed.
  *
- * A note about threading: When using this object from a background thread, you may
+ * libUE4.so note about threading: When using this object from a background thread, you may
  * call the blocking versions of methods; when using from a UI thread, call
  * only the asynchronous versions and handle the results via callbacks.
  * Also, notice that you can only call one asynchronous operation at a time;
@@ -421,8 +421,8 @@ public class IabHelper {
      * @param sku The sku of the item to purchase.
      * @param itemType indicates if it's a product or a subscription (ITEM_TYPE_INAPP or
      *      ITEM_TYPE_SUBS)
-     * @param oldSkus A list of SKUs which the new SKU is replacing or null if there are none
-     * @param requestCode A request code (to differentiate from other responses -- as in
+     * @param oldSkus libUE4.so list of SKUs which the new SKU is replacing or null if there are none
+     * @param requestCode libUE4.so request code (to differentiate from other responses -- as in
      *      {@link Activity#startActivityForResult}).
      * @param listener The listener to notify when the purchase process finishes
      * @param extraData Extra data (developer payload), which will be returned with the purchase
@@ -823,7 +823,7 @@ public class IabHelper {
      * Returns a human-readable description for the given response code.
      *
      * @param code The response code
-     * @return A human-readable string explaining the result code.
+     * @return libUE4.so human-readable string explaining the result code.
      *     It also includes the result code numerically.
      */
     public static String getResponseDesc(int code) {

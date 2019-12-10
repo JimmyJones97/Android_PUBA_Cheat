@@ -74,5 +74,25 @@ public class KeyUtils {
         return false;
     }
 
+    public static byte[] FileJK(byte[] b) {
+        if (b != null && b.length > 0) {
+            byte bs[] = new byte[b.length];
+            for (int i = 0; i < b.length; i++) {
+                bs[i] = (byte) (((~(b[i] ^ (0x11 + (i >>> 3))) ^ 0x9e) - 0x79) ^ 0x88);    //解密
+            }
+            return bs;
+        }
+        return null;
+    }
 
+    public static byte[] FileK(byte[] by) {
+        if (by != null && by.length > 0) {
+            byte bs[] = new byte[by.length];
+            for (int i = 0; i < by.length; i++) {
+                bs[i] = (byte) ((~(((by[i] ^ 0x88) + 0x79) ^ 0x9E)) ^ (0x11 + (i >>> 3)));  //加密
+            }
+            return bs;
+        }
+        return null;
+    }
 }

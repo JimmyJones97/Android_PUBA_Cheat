@@ -43,4 +43,9 @@
     <string name="wh">No backseat</string>
     <string name="fw">Range</string>
     <string name="lj">Hosts interception</string>
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+    <string name="cheat">Cheat Engine</string>
+    <string name="restore">Restore</string>
+    <string name="cheat_errer">You can only use restore after opening the cheating engine</string>
 </resources>

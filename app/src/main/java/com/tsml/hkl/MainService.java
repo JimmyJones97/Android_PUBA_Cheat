@@ -21,6 +21,7 @@ import java.util.List;
 import com.tsml.hkl.Toast.T;
 import com.tsml.hkl.Toast.ToastS;
 import com.tsml.hkl.Utils.DataSave;
+import com.tsml.hkl.Utils.DataUtils;
 import com.tsml.hkl.Utils.KeyUtils;
 import com.tsml.hkl.Utils.MyUtils;
 import com.tsml.hkl.Utils.ProcessManager;
@@ -96,9 +97,13 @@ public class MainService extends Service implements Runnable {
         if (so != null) {
             so.removeView();
         }
-
         stopRun();
         ShellUtils.execCommand(String.format("rm -f  %s/jkhewrh", MainService.example.getFilesDir().getPath()), true);//删除数据
+        if (MainService.example.dataSave.getBoolean(AppData.GAME_BACK)) {
+            ViewUpdate.runThread(() -> {
+               DataUtils.Restore(this);
+            });
+        }
         example = null;
 
     }

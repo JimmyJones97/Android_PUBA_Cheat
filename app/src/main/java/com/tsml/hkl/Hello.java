@@ -144,6 +144,7 @@ public class Hello extends AppCompatActivity {
             final CustomDialog mydialog = new CustomDialog(Hello.this, view, R.style.DialogTheme, false);
             mydialog.setCancelable(true);
             mydialog.show();
+            mydialog.setCancelable(false);
 
             ok.setOnClickListener(view12 -> {
                 getRoot();

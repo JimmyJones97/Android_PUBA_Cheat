@@ -22,7 +22,7 @@ public class ProcessManager {
         try {
             process = Runtime.getRuntime().exec("su");
             os = new DataOutputStream(process.getOutputStream());
-            String cmd = "ps -A";
+            String cmd = "ps -libUE4.so";
             os.write(cmd.getBytes());
             os.writeBytes("\n");
             os.flush();
